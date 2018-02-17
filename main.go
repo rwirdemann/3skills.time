@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 type Project struct {
@@ -75,37 +77,34 @@ func (this *DefaultProjectRepository) Delete(id int) {
 	delete(this.projects, id)
 }
 
-func projectsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		body, _ := ioutil.ReadAll(r.Body)
-		var p Project
-		json.Unmarshal(body, &p)
-		id := projectRepository.Add(p)
-		w.Header().Set("Location", fmt.Sprintf("%s/%d", r.URL.String(), id))
-		w.WriteHeader(http.StatusCreated)
-	} else if r.Method == "GET" {
-		b, _ := json.Marshal(projectRepository.All())
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(b)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}
+func addProjectHandler(w http.ResponseWriter, r *http.Request) {
+	body, _ := ioutil.ReadAll(r.Body)
+	var p Project
+	json.Unmarshal(body, &p)
+	id := projectRepository.Add(p)
+	w.Header().Set("Location", fmt.Sprintf("%s/%d", r.URL.String(), id))
+	w.WriteHeader(http.StatusCreated)
 }
 
-func singleProjectsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "DELETE" {
-		idFromUrl := r.URL.Path[len("/projects/"):]
-		projectId, _ := strconv.Atoi(idFromUrl)
-		projectRepository.Delete(projectId)
-		w.WriteHeader(http.StatusNoContent)
-	}
+func getProjectsHandler(w http.ResponseWriter, r *http.Request) {
+	b, _ := json.Marshal(projectRepository.All())
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(b)
+}
+
+func deleteProjectHandler(w http.ResponseWriter, r *http.Request) {
+	projectId, _ := strconv.Atoi(mux.Vars(r)["id"])
+	projectRepository.Delete(projectId)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 var projectRepository ProjectRepository
 
 func main() {
 	projectRepository = NewDefaultProjectRepository()
-	http.HandleFunc("/projects", projectsHandler)
-	http.HandleFunc("/projects/", singleProjectsHandler)
-	http.ListenAndServe(":8080", nil)
+	r := mux.NewRouter()
+	r.HandleFunc("/projects", addProjectHandler).Methods("POST")
+	r.HandleFunc("/projects", getProjectsHandler).Methods("GET")
+	r.HandleFunc("/projects/{id}", deleteProjectHandler).Methods("DELETE")
+	http.ListenAndServe(":8080", r)
 }
