@@ -24,9 +24,10 @@ type Activity struct {
 }
 
 type ProjectRepository interface {
-	Add(p Project)
+	Add(p Project) int
 	All() []Project
 	Get(id int) Project
+	Delete(id int)
 }
 
 type ActivityRepository interface {
@@ -42,8 +43,10 @@ func NewDefaultProjectRepository() *DefaultProjectRepository {
 	return &DefaultProjectRepository{projects: make(map[int]Project)}
 }
 
-func (this *DefaultProjectRepository) Add(p Project) {
+func (this *DefaultProjectRepository) Add(p Project) int {
+	p.Id = this.nextId()
 	this.projects[p.Id] = p
+	return p.Id
 }
 
 func (this *DefaultProjectRepository) All() []Project {
@@ -54,8 +57,22 @@ func (this *DefaultProjectRepository) All() []Project {
 	return projects
 }
 
+func (this *DefaultProjectRepository) nextId() int {
+	id := 1
+	for _, p := range this.projects {
+		if p.Id >= id {
+			id = p.Id + 1
+		}
+	}
+	return id
+}
+
 func (this *DefaultProjectRepository) Get(id int) Project {
 	return this.projects[id]
+}
+
+func (this *DefaultProjectRepository) Delete(id int) {
+	delete(this.projects, id)
 }
 
 func projectsHandler(w http.ResponseWriter, r *http.Request) {
@@ -63,8 +80,8 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 		body, _ := ioutil.ReadAll(r.Body)
 		var p Project
 		json.Unmarshal(body, &p)
-		projectRepository.Add(p)
-		w.Header().Set("Location", fmt.Sprintf("%s/%d", r.URL.String(), p.Id))
+		id := projectRepository.Add(p)
+		w.Header().Set("Location", fmt.Sprintf("%s/%d", r.URL.String(), id))
 		w.WriteHeader(http.StatusCreated)
 	} else if r.Method == "GET" {
 		b, _ := json.Marshal(projectRepository.All())
@@ -76,12 +93,12 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func singleProjectsHandler(w http.ResponseWriter, r *http.Request) {
-	idFromUrl := r.URL.Path[len("/projects/"):]
-	projectId, _ := strconv.Atoi(idFromUrl)
-	p := projectRepository.Get(projectId)
-	b, _ := json.Marshal(p)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
+	if r.Method == "DELETE" {
+		idFromUrl := r.URL.Path[len("/projects/"):]
+		projectId, _ := strconv.Atoi(idFromUrl)
+		projectRepository.Delete(projectId)
+		w.WriteHeader(http.StatusNoContent)
+	}
 }
 
 var projectRepository ProjectRepository
