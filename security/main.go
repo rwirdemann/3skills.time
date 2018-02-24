@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"time"
 
+	"bitbucket.org/rwirdemann/go-tracker/security/middleware"
 	"github.com/joho/godotenv"
 
 	"github.com/gorilla/mux"
@@ -165,10 +166,12 @@ func main() {
 	projectRepository = NewProjectRepository()
 	activityRepository = NewActivityRepository()
 	r := mux.NewRouter()
-	r.HandleFunc("/projects", addProjectHandler).Methods("POST")
-	r.HandleFunc("/projects", getProjectsHandler).Methods("GET")
-	r.HandleFunc("/projects/{id}", deleteProjectHandler).Methods("DELETE")
-	r.HandleFunc("/projects/{id}/activities", addActivityHandler).Methods("POST")
-	r.HandleFunc("/projects/{id}/activities", getActivitiesHandler).Methods("GET")
+	r.HandleFunc("/projects",
+		middleware.BasicAuth(addProjectHandler)).Methods("POST")
+	r.HandleFunc("/projects",
+		middleware.BasicAuth(getProjectsHandler)).Methods("GET")
+	r.HandleFunc("/projects/{id}", middleware.BasicAuth(deleteProjectHandler)).Methods("DELETE")
+	r.HandleFunc("/projects/{id}/activities", middleware.BasicAuth(addActivityHandler)).Methods("POST")
+	r.HandleFunc("/projects/{id}/activities", middleware.BasicAuth(getActivitiesHandler)).Methods("GET")
 	http.ListenAndServe(":8080", r)
 }
