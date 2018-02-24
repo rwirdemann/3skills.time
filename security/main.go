@@ -4,9 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
+
+	"github.com/joho/godotenv"
 
 	"github.com/gorilla/mux"
 )
@@ -141,7 +145,7 @@ func getActivitiesHandler(w http.ResponseWriter, r *http.Request) {
 
 func basicAuth(r *http.Request) bool {
 	if username, password, ok := r.BasicAuth(); ok {
-		if username == "go" && password == "time" {
+		if username == os.Getenv("USERNAME") && password == os.Getenv("PASSWORD") {
 			return true
 		}
 	}
@@ -153,6 +157,11 @@ var projectRepository *ProjectRepository
 var activityRepository *ActivityRepository
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	projectRepository = NewProjectRepository()
 	activityRepository = NewActivityRepository()
 	r := mux.NewRouter()
