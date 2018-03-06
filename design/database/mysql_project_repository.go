@@ -16,3 +16,7 @@ func (this MySQLProjectRepository) All() []domain.Project {
 	energy := domain.Project{Name: "Energie"}
 	return []domain.Project{picue, energy}
 }
+
+func (this MySQLProjectRepository) Add(p domain.Project) {
+
+}

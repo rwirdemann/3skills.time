@@ -11,7 +11,7 @@ func NewGetProjects(presenter Presenter, repository domain.ProjectRepository) *G
 	return &GetProjects{presenter: presenter, repository: repository}
 }
 
-func (this GetProjects) Run() interface{} {
+func (this GetProjects) Run(i interface{}) interface{} {
 	projects := this.repository.All()
 	return this.presenter.Present(projects)
 }
