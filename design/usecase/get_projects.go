@@ -1,17 +1,27 @@
 package usecase
 
-import "github.com/rwirdemann/go-tracker/design/domain"
+import (
+	"github.com/rwirdemann/go-tracker/foundation"
+)
 
 type GetProjects struct {
-	presenter  Presenter
-	repository domain.ProjectRepository
+	consumer   foundation.Consumer
+	presenter  foundation.Presenter
+	repository Repository
 }
 
-func NewGetProjects(presenter Presenter, repository domain.ProjectRepository) *GetProjects {
-	return &GetProjects{presenter: presenter, repository: repository}
+func NewGetProjects(consumer foundation.Consumer,
+	presenter foundation.Presenter,
+	repository Repository) *GetProjects {
+	return &GetProjects{consumer: consumer, presenter: presenter, repository: repository}
 }
 
 func (this GetProjects) Run(i interface{}) interface{} {
-	projects := this.repository.All()
+	var filter string
+	switch v := this.consumer.Consume(i).(type) {
+	case string:
+		filter = v
+	}
+	projects := this.repository.AllProjects(filter)
 	return this.presenter.Present(projects)
 }

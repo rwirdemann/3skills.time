@@ -4,14 +4,15 @@ import (
 	"log"
 
 	"github.com/rwirdemann/go-tracker/design/domain"
+	"github.com/rwirdemann/go-tracker/foundation"
 )
 
 type AddProject struct {
-	consumer   Consumer
-	repository domain.ProjectRepository
+	consumer   foundation.Consumer
+	repository Repository
 }
 
-func NewAddProject(consumer Consumer, repository domain.ProjectRepository) *AddProject {
+func NewAddProject(consumer foundation.Consumer, repository Repository) *AddProject {
 	return &AddProject{consumer: consumer, repository: repository}
 }
 
