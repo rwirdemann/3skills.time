@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/rwirdemann/go-tracker/design/cli/presenter"
+	"github.com/rwirdemann/gotracker/cli/presenter"
 
-	"github.com/rwirdemann/go-tracker/design/database"
-	"github.com/rwirdemann/go-tracker/design/usecase"
+	"github.com/rwirdemann/gotracker/database"
+	"github.com/rwirdemann/gotracker/usecase"
 )
 
 func main() {

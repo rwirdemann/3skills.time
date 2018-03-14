@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/rwirdemann/go-tracker/foundation"
+	"github.com/rwirdemann/gotracker-pg/foundation"
 )
 
 func MakeGetProjectsHandler(usecase foundation.Usecase) http.HandlerFunc {

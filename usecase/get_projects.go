@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/rwirdemann/go-tracker/foundation"
+	"github.com/rwirdemann/gotracker-pg/foundation"
 )
 
 type GetProjects struct {

@@ -3,7 +3,7 @@ package rest
 import (
 	"encoding/json"
 
-	"github.com/rwirdemann/go-tracker/design/domain"
+	"github.com/rwirdemann/gotracker/domain"
 )
 
 type JSONConsumer struct {

@@ -3,7 +3,7 @@ package presenter
 import (
 	"fmt"
 
-	"github.com/rwirdemann/go-tracker/design/domain"
+	"github.com/rwirdemann/gotracker/domain"
 )
 
 func NewCLIPresenter() CLIPresenter {

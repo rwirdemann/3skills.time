@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/rwirdemann/go-tracker/design/domain"
+	"github.com/rwirdemann/gotracker/domain"
 )
 
 type MySQLRepository struct {

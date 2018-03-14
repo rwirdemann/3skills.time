@@ -3,8 +3,8 @@ package usecase
 import (
 	"log"
 
-	"github.com/rwirdemann/go-tracker/design/domain"
-	"github.com/rwirdemann/go-tracker/foundation"
+	"github.com/rwirdemann/gotracker-pg/foundation"
+	"github.com/rwirdemann/gotracker/domain"
 )
 
 type AddProject struct {
