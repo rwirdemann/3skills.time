@@ -2,19 +2,17 @@ package rest
 
 import (
 	"encoding/json"
-
-	"github.com/rwirdemann/gotracker/domain"
 )
 
 type JSONConsumer struct {
+	result interface{}
 }
 
-func NewJSONConsumer() JSONConsumer {
-	return JSONConsumer{}
+func NewJSONConsumer(result interface{}) JSONConsumer {
+	return JSONConsumer{result: result}
 }
 
-func (this JSONConsumer) Consume(i interface{}) interface{} {
-	var p domain.Project
-	json.Unmarshal(i.([]byte), &p)
-	return p
+func (this JSONConsumer) Consume(body interface{}) interface{} {
+	json.Unmarshal(body.([]byte), this.result)
+	return this.result
 }

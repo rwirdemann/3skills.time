@@ -16,8 +16,8 @@ func NewGetBookings(consumer foundation.Consumer,
 	return &GetBookings{consumer: consumer, presenter: presenter, repository: repository}
 }
 
-func (this GetBookings) Run(i interface{}) interface{} {
-	projectId := this.consumer.Consume(i).(int)
+func (this GetBookings) Run(i ...interface{}) interface{} {
+	projectId := this.consumer.Consume(i[0]).(int)
 	bookings := this.repository.AllBookings(projectId)
 	return this.presenter.Present(bookings)
 }

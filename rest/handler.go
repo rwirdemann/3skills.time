@@ -27,3 +27,10 @@ func MakeGetBookingsHandler(usecase foundation.Usecase) http.HandlerFunc {
 		w.Write(usecase.Run(r).([]byte))
 	}
 }
+
+func MakeAddBookingHandler(usecase foundation.Usecase) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		body, _ := ioutil.ReadAll(r.Body)
+		usecase.Run(r, body)
+	}
+}

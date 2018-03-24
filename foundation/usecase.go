@@ -1,5 +1,5 @@
 package foundation
 
 type Usecase interface {
-	Run(i interface{}) interface{}
+	Run(i ...interface{}) interface{}
 }

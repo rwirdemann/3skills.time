@@ -16,9 +16,9 @@ func NewGetProjects(consumer foundation.Consumer,
 	return &GetProjects{consumer: consumer, presenter: presenter, repository: repository}
 }
 
-func (this GetProjects) Run(i interface{}) interface{} {
+func (this GetProjects) Run(i ...interface{}) interface{} {
 	var filter string
-	switch v := this.consumer.Consume(i).(type) {
+	switch v := this.consumer.Consume(i[0]).(type) {
 	case string:
 		filter = v
 	}
