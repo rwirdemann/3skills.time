@@ -25,12 +25,18 @@ func main() {
 	getProjects := usecase.NewGetProjects(consumer, presenter, repository)
 	addProject := usecase.NewAddProject(jsonConsumter, repository)
 
+	projectIdConsumer := rest.NewURLConsumer("projectId", "int")
+	getBookings := usecase.NewGetBookings(projectIdConsumer, presenter, repository)
+
 	r := mux.NewRouter()
 	getProjectsHandler := rest.MakeGetProjectsHandler(getProjects)
 	addProjectHandler := rest.MakeAddProjectHandler(addProject)
+	getBookingsHandler := rest.MakeGetBookingsHandler(getBookings)
+
 	if *unsecure {
 		r.HandleFunc("/projects", getProjectsHandler).Methods("GET")
 		r.HandleFunc("/projects", addProjectHandler).Methods("POST")
+		r.HandleFunc("/projects/{projectId}/bookings", getBookingsHandler).Methods("GET")
 	} else {
 		r.HandleFunc("/projects", middleware.JWT(getProjectsHandler)).Methods("GET")
 		r.HandleFunc("/projects", middleware.JWT(addProjectHandler)).Methods("POST")
