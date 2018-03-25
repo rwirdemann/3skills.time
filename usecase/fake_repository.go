@@ -1,16 +1,16 @@
-package database
+package usecase
 
 import (
 	"github.com/rwirdemann/gotracker/domain"
 )
 
-type MySQLRepository struct {
+type FakeRepository struct {
 	projects map[int]domain.Project
 	bookings map[domain.Project][]domain.Booking
 }
 
-func NewMySQLRepository() *MySQLRepository {
-	r := MySQLRepository{projects: make(map[int]domain.Project), bookings: make(map[domain.Project][]domain.Booking)}
+func NewFakeRepository() *FakeRepository {
+	r := FakeRepository{projects: make(map[int]domain.Project), bookings: make(map[domain.Project][]domain.Booking)}
 	r.AddProject(domain.Project{Name: "Picue"})
 	r.AddProject(domain.Project{Name: "Energie"})
 
@@ -20,7 +20,11 @@ func NewMySQLRepository() *MySQLRepository {
 	return &r
 }
 
-func (this *MySQLRepository) AllProjects(filter string) []domain.Project {
+func (this *FakeRepository) contains(name string) bool {
+	return true
+}
+
+func (this *FakeRepository) AllProjects(filter string) []domain.Project {
 	result := []domain.Project{}
 	for _, v := range this.projects {
 		result = append(result, v)
@@ -28,22 +32,22 @@ func (this *MySQLRepository) AllProjects(filter string) []domain.Project {
 	return result
 }
 
-func (this *MySQLRepository) AllBookings(projectId int) []domain.Booking {
+func (this *FakeRepository) AllBookings(projectId int) []domain.Booking {
 	return this.bookings[this.projects[projectId]]
 }
 
-func (this *MySQLRepository) AddProject(p domain.Project) {
+func (this *FakeRepository) AddProject(p domain.Project) {
 	p.Id = this.nextProjectId()
 	this.projects[p.Id] = p
 }
 
-func (this *MySQLRepository) AddBooking(b domain.Booking) {
+func (this *FakeRepository) AddBooking(b domain.Booking) {
 	b.Id = this.nextBookingId()
 	project := this.projects[b.ProjectId]
 	this.bookings[project] = append(this.bookings[project], b)
 }
 
-func (this *MySQLRepository) nextProjectId() int {
+func (this *FakeRepository) nextProjectId() int {
 	nextId := 1
 	for k, _ := range this.projects {
 		if k >= nextId {
@@ -53,7 +57,7 @@ func (this *MySQLRepository) nextProjectId() int {
 	return nextId
 }
 
-func (this *MySQLRepository) nextBookingId() int {
+func (this *FakeRepository) nextBookingId() int {
 	nextId := 1
 	for _, bookings := range this.bookings {
 		for _, b := range bookings {
