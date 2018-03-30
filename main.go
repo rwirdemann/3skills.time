@@ -6,13 +6,13 @@ import (
 	"net/http"
 
 	"github.com/rs/cors"
-	"github.com/rwirdemann/gotracker/domain"
-	"github.com/rwirdemann/gotracker/middleware"
+	"github.com/rwirdemann/3skills.time/domain"
+	"github.com/rwirdemann/3skills.time/middleware"
 
 	"github.com/gorilla/mux"
-	"github.com/rwirdemann/gotracker/database"
-	"github.com/rwirdemann/gotracker/rest"
-	"github.com/rwirdemann/gotracker/usecase"
+	"github.com/rwirdemann/3skills.time/database"
+	"github.com/rwirdemann/3skills.time/rest"
+	"github.com/rwirdemann/3skills.time/usecase"
 )
 
 func main() {

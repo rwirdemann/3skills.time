@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/rwirdemann/gotracker/domain"
+import "github.com/rwirdemann/3skills.time/domain"
 
 type Repository interface {
 	AllProjects(filter string) []domain.Project

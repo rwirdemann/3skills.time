@@ -5,9 +5,9 @@ import (
 
 	"github.com/stretchr/testify/mock"
 
-	"github.com/rwirdemann/gotracker/usecase/mocks"
+	"github.com/rwirdemann/3skills.time/usecase/mocks"
 
-	"github.com/rwirdemann/gotracker/domain"
+	"github.com/rwirdemann/3skills.time/domain"
 )
 
 func TestAddProjectWithFakeRepository(t *testing.T) {

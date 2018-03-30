@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"github.com/rwirdemann/gotracker-pg/foundation"
-	"github.com/rwirdemann/gotracker/domain"
+	"github.com/rwirdemann/3skills.time/domain"
 )
 
 type AddBooking struct {
@@ -17,10 +17,10 @@ func NewAddBooking(projectIdConsumer foundation.Consumer,
 	return &AddBooking{projectIdConsumer: projectIdConsumer, bookingConsumer: bookingConsumer, repository: repository}
 }
 
-func (this AddBooking) Run(i ...interface{}) interface{} {
-	projectId := this.projectIdConsumer.Consume(i[0]).(int)
-	booking := this.bookingConsumer.Consume(i[1]).(*domain.Booking)
+func (a AddBooking) Run(i ...interface{}) interface{} {
+	projectId := a.projectIdConsumer.Consume(i[0]).(int)
+	booking := a.bookingConsumer.Consume(i[1]).(*domain.Booking)
 	booking.ProjectId = projectId
-	this.repository.AddBooking(*booking)
+	a.repository.AddBooking(*booking)
 	return booking
 }

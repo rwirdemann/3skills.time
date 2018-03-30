@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/rwirdemann/gotracker/foundation"
+	"github.com/rwirdemann/3skills.time/foundation"
 )
 
 type GetBookings struct {

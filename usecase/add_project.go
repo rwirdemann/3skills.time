@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/rwirdemann/gotracker-pg/foundation"
-	"github.com/rwirdemann/gotracker/domain"
+	"github.com/rwirdemann/3skills.time/domain"
 )
 
 type AddProject struct {
