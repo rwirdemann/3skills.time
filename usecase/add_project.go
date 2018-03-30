@@ -16,9 +16,9 @@ func NewAddProject(consumer foundation.Consumer, repository Repository) *AddProj
 	return &AddProject{consumer: consumer, repository: repository}
 }
 
-func (this AddProject) Run(i ...interface{}) interface{} {
-	project := this.consumer.Consume(i[0]).(*domain.Project)
+func (u AddProject) Run(i ...interface{}) interface{} {
+	project := u.consumer.Consume(i[0]).(*domain.Project)
 	log.Printf("AddProject.Run: %s", project.Name)
-	this.repository.AddProject(*project)
+	u.repository.AddProject(*project)
 	return project
 }

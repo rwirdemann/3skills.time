@@ -12,8 +12,9 @@ import (
 
 func main() {
 	presenter := presenter.NewCLIPresenter()
-	consumer := rest.NewQueryConsumer()
 	repository := database.NewMySQLRepository()
+
+	consumer := rest.NewQueryConsumer("name")
 	usecase := usecase.NewGetProjects(consumer, presenter, repository)
 	result := usecase.Run(nil)
 	fmt.Println(result)

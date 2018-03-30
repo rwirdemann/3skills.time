@@ -19,7 +19,7 @@ func main() {
 	unsecure := flag.Bool("unsecure", false, "run in unsecure mode")
 	flag.Parse()
 
-	consumer := rest.NewQueryConsumer()
+	consumer := rest.NewQueryConsumer("name")
 	presenter := rest.NewJSONPresenter()
 	repository := database.NewMySQLRepository()
 	getProjects := usecase.NewGetProjects(consumer, presenter, repository)
