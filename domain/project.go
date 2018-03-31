@@ -1,6 +1,7 @@
 package domain
 
 type Project struct {
-	Id   int
-	Name string
+	Id         int
+	CustomerId int
+	Name       string
 }

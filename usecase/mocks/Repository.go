@@ -9,14 +9,37 @@ type Repository struct {
 	mock.Mock
 }
 
-// Add provides a mock function with given fields: p
-func (_m *Repository) AddProject(p domain.Project) {
-	_m.Called(p)
-}
-
 // AddBooking provides a mock function with given fields: b
 func (_m *Repository) AddBooking(b domain.Booking) {
 	_m.Called(b)
+}
+
+// AddCustomer provides a mock function with given fields: c
+func (_m *Repository) AddCustomer(c domain.Customer) int {
+	ret := _m.Called(c)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(domain.Customer) int); ok {
+		r0 = rf(c)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	return r0
+}
+
+// AddProject provides a mock function with given fields: p
+func (_m *Repository) AddProject(p domain.Project) int {
+	ret := _m.Called(p)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(domain.Project) int); ok {
+		r0 = rf(p)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	return r0
 }
 
 // AllBookings provides a mock function with given fields: projectId
@@ -26,6 +49,22 @@ func (_m *Repository) AllBookings(projectId int) []domain.Booking {
 	var r0 []domain.Booking
 	if rf, ok := ret.Get(0).(func(int) []domain.Booking); ok {
 		r0 = rf(projectId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.Booking)
+		}
+	}
+
+	return r0
+}
+
+// AllBookingsByMonthAndYear provides a mock function with given fields: customerId, month, year
+func (_m *Repository) AllBookingsByMonthAndYear(customerId int, month int, year int) []domain.Booking {
+	ret := _m.Called(customerId, month, year)
+
+	var r0 []domain.Booking
+	if rf, ok := ret.Get(0).(func(int, int, int) []domain.Booking); ok {
+		r0 = rf(customerId, month, year)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]domain.Booking)
@@ -49,4 +88,25 @@ func (_m *Repository) AllProjects(filter string) []domain.Project {
 	}
 
 	return r0
+}
+
+// InvoiceByAndMonthAndYear provides a mock function with given fields: customerId, month, year
+func (_m *Repository) InvoiceByAndMonthAndYear(customerId int, month int, year int) (domain.Invoice, bool) {
+	ret := _m.Called(customerId, month, year)
+
+	var r0 domain.Invoice
+	if rf, ok := ret.Get(0).(func(int, int, int) domain.Invoice); ok {
+		r0 = rf(customerId, month, year)
+	} else {
+		r0 = ret.Get(0).(domain.Invoice)
+	}
+
+	var r1 bool
+	if rf, ok := ret.Get(1).(func(int, int, int) bool); ok {
+		r1 = rf(customerId, month, year)
+	} else {
+		r1 = ret.Get(1).(bool)
+	}
+
+	return r0, r1
 }

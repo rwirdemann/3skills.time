@@ -9,6 +9,10 @@ type MySQLRepository struct {
 	bookings map[domain.Project][]domain.Booking
 }
 
+func (m *MySQLRepository) AddCustomer(c domain.Customer) int {
+	panic("implement me")
+}
+
 func NewMySQLRepository() *MySQLRepository {
 	r := MySQLRepository{projects: make(map[int]domain.Project), bookings: make(map[domain.Project][]domain.Booking)}
 	r.AddProject(domain.Project{Name: "Picue"})
@@ -20,32 +24,33 @@ func NewMySQLRepository() *MySQLRepository {
 	return &r
 }
 
-func (this *MySQLRepository) AllProjects(filter string) []domain.Project {
-	result := []domain.Project{}
-	for _, v := range this.projects {
+func (m *MySQLRepository) AllProjects(filter string) []domain.Project {
+	var result []domain.Project
+	for _, v := range m.projects {
 		result = append(result, v)
 	}
 	return result
 }
 
-func (this *MySQLRepository) AllBookings(projectId int) []domain.Booking {
-	return this.bookings[this.projects[projectId]]
+func (m *MySQLRepository) AllBookings(projectId int) []domain.Booking {
+	return m.bookings[m.projects[projectId]]
 }
 
-func (this *MySQLRepository) AddProject(p domain.Project) {
-	p.Id = this.nextProjectId()
-	this.projects[p.Id] = p
+func (m *MySQLRepository) AddProject(p domain.Project) int {
+	p.Id = m.nextProjectId()
+	m.projects[p.Id] = p
+	return p.Id
 }
 
-func (this *MySQLRepository) AddBooking(b domain.Booking) {
-	b.Id = this.nextBookingId()
-	project := this.projects[b.ProjectId]
-	this.bookings[project] = append(this.bookings[project], b)
+func (m *MySQLRepository) AddBooking(b domain.Booking) {
+	b.Id = m.nextBookingId()
+	project := m.projects[b.ProjectId]
+	m.bookings[project] = append(m.bookings[project], b)
 }
 
-func (this *MySQLRepository) nextProjectId() int {
+func (m *MySQLRepository) nextProjectId() int {
 	nextId := 1
-	for k, _ := range this.projects {
+	for k := range m.projects {
 		if k >= nextId {
 			nextId = k + 1
 		}
@@ -53,9 +58,17 @@ func (this *MySQLRepository) nextProjectId() int {
 	return nextId
 }
 
-func (this *MySQLRepository) nextBookingId() int {
+func (m *MySQLRepository) AllBookingsByMonthAndYear(customerId int, month int, year int) []domain.Booking {
+	panic("implement me")
+}
+
+func (m *MySQLRepository) InvoiceByAndMonthAndYear(customerId int, month int, year int) (domain.Invoice, bool) {
+	panic("implement me")
+}
+
+func (m *MySQLRepository) nextBookingId() int {
 	nextId := 1
-	for _, bookings := range this.bookings {
+	for _, bookings := range m.bookings {
 		for _, b := range bookings {
 			if b.Id >= nextId {
 				nextId = b.Id + 1
