@@ -1,22 +1,35 @@
 package domain
 
 type Position struct {
-	Title string
 	Hours float64
-
 }
 
 type Invoice struct {
-	positions map[int][]Position
+	Positions map[int]map[string]Position
 }
 
-func NewInvoice(bookingsByProjectId map[int][]Booking) *Invoice {
-	invoice := Invoice{make(map[int][]Position)}
+func NewInvoice() *Invoice {
+	return &Invoice{make(map[int]map[string]Position)}
+}
+
+func NewInvoiceWithBookings(bookingsByProjectId map[int][]Booking) *Invoice {
+	invoice := Invoice{make(map[int]map[string]Position)}
 	for projectId, bookings := range bookingsByProjectId {
+		if invoice.Positions[projectId] == nil {
+			invoice.Positions[projectId] = make(map[string]Position)
+		}
 		for _, b := range bookings {
-			p := Position{Title: b.Description, Hours: b.Hours}
-			invoice.positions[projectId] = append(invoice.positions[projectId], p)
+			position := invoice.Positions[projectId][b.Description]
+			position.Hours += b.Hours
+			invoice.Positions[projectId][b.Description] = position
 		}
 	}
 	return &invoice
+}
+
+func (i *Invoice) AddPosition(projectId int, title string, hours float64) {
+	if i.Positions[projectId] == nil {
+		i.Positions[projectId] = make(map[string]Position)
+	}
+	i.Positions[projectId][title] = Position{Hours: hours}
 }

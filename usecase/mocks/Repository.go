@@ -14,6 +14,17 @@ func (_m *Repository) AddBooking(b domain.Booking) {
 	_m.Called(b)
 }
 
+// AddBookings provides a mock function with given fields: b
+func (_m *Repository) AddBookings(b ...domain.Booking) {
+	_va := make([]interface{}, len(b))
+	for _i := range b {
+		_va[_i] = b[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, _va...)
+	_m.Called(_ca...)
+}
+
 // AddCustomer provides a mock function with given fields: c
 func (_m *Repository) AddCustomer(c domain.Customer) int {
 	ret := _m.Called(c)

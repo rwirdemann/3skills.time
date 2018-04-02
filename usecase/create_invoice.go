@@ -38,7 +38,7 @@ func (u CreateInvoice) Run(i ...interface{}) interface{} {
 		byProject[b.ProjectId] = append(byProject[b.ProjectId], b)
 	}
 
-	invoice := domain.NewInvoice(byProject)
+	invoice := domain.NewInvoiceWithBookings(byProject)
 	return u.presenter.Present(invoice)
 }
 

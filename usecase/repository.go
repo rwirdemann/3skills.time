@@ -8,6 +8,7 @@ type Repository interface {
 	AllProjects(filter string) []domain.Project
 	AddProject(p domain.Project) int
 	AddBooking(b domain.Booking)
+	AddBookings(b ...domain.Booking)
 	AllBookings(projectId int) []domain.Booking
 
 	AllBookingsByMonthAndYear(customerId int, month int, year int) []domain.Booking

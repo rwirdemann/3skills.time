@@ -13,18 +13,17 @@ type FakeRepository struct {
 	invoices map[int]map[int]map[int]domain.Invoice // invoices[customerid][year][month]
 }
 
+func (f *FakeRepository) AddBookings(bookings ...domain.Booking) {
+	for _, b := range bookings {
+		f.AddBooking(b)
+	}
+}
+
 func NewFakeRepository() *FakeRepository {
 	r := FakeRepository{projects: make(map[int]domain.Project),
 		bookingsByProject: make(map[domain.Project][]domain.Booking),
 		customers: make(map[int]domain.Customer),
 		invoices: make(map[int]map[int]map[int]domain.Invoice)}
-
-	customerId := r.AddCustomer(domain.Customer{Name: "3skills"})
-	r.AddProject(domain.Project{Name: "Picue", CustomerId: customerId})
-	r.AddProject(domain.Project{Name: "Energie", CustomerId: customerId})
-
-	b := domain.Booking{Description: "NRG-213", Hours: 2.0, ProjectId: 1}
-	r.AddBooking(b)
 
 	return &r
 }

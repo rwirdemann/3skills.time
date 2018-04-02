@@ -9,6 +9,10 @@ type MySQLRepository struct {
 	bookings map[domain.Project][]domain.Booking
 }
 
+func (m *MySQLRepository) AddBookings(b ...domain.Booking) {
+	panic("implement me")
+}
+
 func (m *MySQLRepository) AddCustomer(c domain.Customer) int {
 	panic("implement me")
 }
