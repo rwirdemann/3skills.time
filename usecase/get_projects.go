@@ -16,12 +16,12 @@ func NewGetProjects(consumer foundation.Consumer,
 	return &GetProjects{consumer: consumer, presenter: presenter, repository: repository}
 }
 
-func (this GetProjects) Run(i ...interface{}) interface{} {
+func (g GetProjects) Run(i ...interface{}) interface{} {
 	var filter string
-	switch v := this.consumer.Consume(i[0]).(type) {
+	switch v := g.consumer.Consume(i[0]).(type) {
 	case string:
 		filter = v
 	}
-	projects := this.repository.AllProjects(filter)
-	return this.presenter.Present(projects)
+	projects := g.repository.AllProjects(filter)
+	return g.presenter.Present(projects)
 }
