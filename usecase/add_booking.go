@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/rwirdemann/gotracker-pg/foundation"
 	"github.com/rwirdemann/3skills.time/domain"
+	"github.com/rwirdemann/3skills.time/foundation"
 )
 
 type AddBooking struct {

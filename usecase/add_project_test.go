@@ -28,7 +28,7 @@ func TestAddProjectWithMockRepository(t *testing.T) {
 	consumer := NewIdentityConsumer()
 	addProject := NewAddProject(consumer, &repository)
 
-	repository.On("AddProject", mock.AnythingOfType("domain.Project")).Return(nil)
+	repository.On("AddProject", mock.AnythingOfType("domain.Project")).Return(1)
 	p := domain.Project{Name: "Test Projekt"}
 	addProject.Run(&p)
 
