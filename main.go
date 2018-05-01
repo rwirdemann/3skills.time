@@ -21,8 +21,9 @@ func main() {
 
 	consumer := rest.NewQueryConsumer("name")
 	presenter := rest.NewJSONPresenter()
+	projectsWithOperationsPresenter := rest.NewJSONProjectsWithOperationsPresenter()
 	repository := database.NewMySQLRepository()
-	getProjects := usecase.NewGetProjects(consumer, presenter, repository)
+	getProjects := usecase.NewGetProjects(consumer, projectsWithOperationsPresenter, repository)
 
 	projectConsumer := rest.NewJSONConsumer(&domain.Project{})
 	addProject := usecase.NewAddProject(projectConsumer, repository)
