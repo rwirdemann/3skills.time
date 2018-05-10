@@ -50,10 +50,10 @@ func main() {
 		r.HandleFunc("/projects", middleware.JWT(addProjectHandler)).Methods("POST")
 	}
 
-	fmt.Println("GET  http://localhost:8080/projects")
-	fmt.Println("POST http://localhost:8080/projects")
-	fmt.Println("GET  http://localhost:8080/projects/1/bookings")
-	fmt.Println("POST http://localhost:8080/projects/1/bookings")
+	fmt.Println("GET  http://localhost:8190/projects")
+	fmt.Println("POST http://localhost:8190/projects")
+	fmt.Println("GET  http://localhost:8190/projects/1/bookings")
+	fmt.Println("POST http://localhost:8190/projects/1/bookings")
 
-	http.ListenAndServe(":8080", cors.AllowAll().Handler(r))
+	http.ListenAndServe(":8190", cors.AllowAll().Handler(r))
 }
